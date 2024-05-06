@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:platform_converter/controller/home_provider.dart';
 import 'package:provider/provider.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isAndroid = false;
+  bool isAndroid = Platform.isAndroid;
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +97,14 @@ class _HomePageState extends State<HomePage> {
           print(timeOfDay);
           print(timeOfDay.hour);
           print(timeOfDay.minute);
+
+          print("Platform.isAndroid ${Platform.isAndroid}");
+          print("Platform.isIOS ${Platform.isIOS}");
+          print("Platform.isMac ${Platform.isMacOS}");
+          print("Platform.kIsWeb ${kIsWeb}");
+
+
+
         },
       ),
     );
