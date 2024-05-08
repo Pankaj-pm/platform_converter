@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_converter/controller/main_provider.dart';
@@ -13,54 +15,90 @@ class HomeNew extends StatefulWidget {
 class _HomeNewState extends State<HomeNew> {
   @override
   Widget build(BuildContext context) {
-    var isAndroid = Provider.of<MainProvider>(context,listen: false).isAndroid;
+    var isAndroid = Provider.of<MainProvider>(context, listen: false).isAndroid;
 
-    if(isAndroid){
+    if (isAndroid) {
       return Scaffold(
         body: Center(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("Hello Android"),
-                Consumer<MainProvider>(
-                  builder: (BuildContext context, MainProvider mainProvider, Widget? child) {
-                    return Switch(
-                      value: mainProvider.isAndroid,
-                      onChanged: (value) {
-                        mainProvider.changePlatform(value);
-                      },
-                    );
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Hello Android"),
+            Consumer<MainProvider>(
+              builder: (BuildContext context, MainProvider mainProvider, Widget? child) {
+                return Switch(
+                  value: mainProvider.isAndroid,
+                  onChanged: (value) {
+                    mainProvider.changePlatform(value);
                   },
-                ),
-                CupertinoActivityIndicator(),
-              ],
-            )),
+                );
+              },
+            ),
+            CupertinoActivityIndicator(),
+          ],
+        )),
       );
-    }else{
+    } else {
       return CupertinoPageScaffold(
-        child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("Hello ios"),
-                Consumer<MainProvider>(
-                  builder: (BuildContext context, MainProvider mainProvider, Widget? child) {
-                    return CupertinoSwitch(
-                      value: mainProvider.isAndroid,
-                      onChanged: (value) {
-                        mainProvider.changePlatform(value);
-                      },
-                    );
-                  },
-                ),
-                CupertinoActivityIndicator(),
-                CupertinoButton.filled(child: Text("Ok"), onPressed: () {
-
-                },)
-              ],
-            )),
+        child: CustomScrollView(
+          slivers: [
+            CupertinoSliverNavigationBar(
+              largeTitle: Text("Ios"),
+              leading: Icon(Icons.ac_unit),
+              stretch: false,
+              middle: Text("Android"),
+              alwaysShowMiddle: false,
+            ),
+            SliverToBoxAdapter(
+              child: Text("dsfsdf"),
+            ),
+            SliverFillRemaining(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CupertinoListSection(
+                    header: Text("Single selection".toUpperCase()),
+                    footer: Text("Single Item".toUpperCase()),
+                    children: [
+                      CupertinoListTile(
+                        title: Text("Off"),
+                        trailing: Icon(CupertinoIcons.check_mark),
+                      ),
+                      CupertinoListTile(
+                        title: Text("WIFI"),
+                        trailing: Icon(CupertinoIcons.check_mark),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        // child: Column(
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: [
+        // Text("Hello ios"),
+        // Consumer<MainProvider>(
+        //   builder: (BuildContext context, MainProvider mainProvider, Widget? child) {
+        //     return CupertinoSwitch(
+        //       value: mainProvider.isAndroid,
+        //       onChanged: (value) {
+        //         mainProvider.changePlatform(value);
+        //       },
+        //     );
+        //   },
+        // ),
+        // CupertinoActivityIndicator(),
+        // CupertinoButton.filled(
+        //   child: Text("Ok"),
+        //   onPressed: () {},
+        // )
+        //   ],
+        // ),
       );
     }
-
   }
 }
