@@ -35,6 +35,14 @@ class _HomeNewState extends State<HomeNew> {
               },
             ),
             CupertinoActivityIndicator(),
+            Slider.adaptive(value: 0.5, onChanged: (value) {
+
+            },),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "contact_page");
+                },
+                child: Text("Contact Page"))
           ],
         )),
       );
@@ -48,9 +56,16 @@ class _HomeNewState extends State<HomeNew> {
               stretch: false,
               middle: Text("Android"),
               alwaysShowMiddle: false,
-            ),
-            SliverToBoxAdapter(
-              child: Text("dsfsdf"),
+              trailing: Consumer<MainProvider>(
+                builder: (BuildContext context, MainProvider mainProvider, Widget? child) {
+                  return CupertinoSwitch(
+                    value: mainProvider.isAndroid,
+                    onChanged: (value) {
+                      mainProvider.changePlatform(value);
+                    },
+                  );
+                },
+              ),
             ),
             SliverFillRemaining(
               child: Column(
