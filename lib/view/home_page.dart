@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:platform_converter/controller/home_provider.dart';
 import 'package:provider/provider.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -102,11 +101,9 @@ class _HomePageState extends State<HomePage> {
           print("Platform.isIOS ${Platform.isIOS}");
           print("Platform.isMac ${Platform.isMacOS}");
           print("Platform.kIsWeb ${kIsWeb}");
-
-
-
         },
       ),
+
     );
   }
 }
