@@ -20,6 +20,7 @@ class _HomeNewState extends State<HomeNew> {
 
     if (isAndroid) {
       return Scaffold(
+        appBar: AppBar(),
         body: PageView(
           controller: Provider.of<HomeProvider>(context, listen: false).pageController,
           onPageChanged: (value) {
@@ -33,6 +34,24 @@ class _HomeNewState extends State<HomeNew> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text("Hello Android"),
+                CupertinoContextMenu(
+                  actions: [
+                    CupertinoContextMenuAction(child: Text("Option 1")),
+                    CupertinoContextMenuAction(
+                      child: Text(
+                        "Option 2",
+                      ),
+                      isDestructiveAction: true,
+                      trailingIcon: Icons.settings,
+                    ),
+                  ],
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    child: Image.network(
+                        "https://t3.ftcdn.net/jpg/06/58/66/44/240_F_658664405_wpyvdrOTz7bkXMu0Et6yghSGXSbetOJr.jpg"),
+                  ),
+                ),
                 Consumer<MainProvider>(
                   builder: (BuildContext context, MainProvider mainProvider, Widget? child) {
                     return Switch(
@@ -52,7 +71,33 @@ class _HomeNewState extends State<HomeNew> {
                     onPressed: () {
                       Navigator.pushNamed(context, "contact_page");
                     },
-                    child: Text("Contact Page"))
+                    child: Text("Contact Page")),
+                ElevatedButton(
+                    onPressed: () {
+                      showDatePicker(
+                        context: context,
+                        cancelText: "No",
+                        initialEntryMode: DatePickerEntryMode.calendarOnly,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2050),
+                      );
+                    },
+                    child: Text("showDatePicker")),
+                MyButton(),
+                Container(
+                    height: 200,
+                    child: CupertinoDatePicker(
+                      mode: CupertinoDatePickerMode.monthYear,
+                      onDateTimeChanged: (value) {
+
+                      },
+                    )),
+                ListView.builder(itemBuilder: (context, index) {
+                  return Column(
+                    children: [SingleChildScrollView()],
+                  )
+                },itemCount: 10,)
               ],
             )),
             SettingPage(),
@@ -69,21 +114,19 @@ class _HomeNewState extends State<HomeNew> {
             return BottomNavigationBar(
               currentIndex: homeProvider.bi,
               type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.blue,
-              selectedItemColor: Colors.white,
               onTap: (value) {
-                Provider.of<HomeProvider>(context, listen: false).changePage(value);
-                Provider.of<HomeProvider>(context, listen: false).pageController.animateToPage(
-                      value,
-                      duration: Duration(milliseconds: 200),
-                      curve: Curves.linear,
-                    );
+                homeProvider.changePage(value);
+                homeProvider.pageController.animateToPage(
+                  value,
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.linear,
+                );
               },
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.settings), label: "setting"),
-                BottomNavigationBarItem(icon: Icon(Icons.person), label: "user"),
-                BottomNavigationBarItem(icon: Icon(Icons.phone), label: "Phone"),
+                BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
+                BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
+                BottomNavigationBarItem(icon: Icon(Icons.add_shopping_cart), label: "Cart"),
               ],
             );
           },
@@ -228,6 +271,103 @@ class _SettingPageState extends State<SettingPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MyButton extends StatelessWidget {
+  const MyButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+            onPressed: () {
+              showBottomSheet(
+                context: context,
+                builder: (context) {
+                  return Container(
+                    color: Colors.blue,
+                    child: Text("Hello"),
+                    height: 200,
+                    width: double.infinity,
+                  );
+                },
+              );
+            },
+            child: Text("showBottomSheet new")),
+        ElevatedButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                isScrollControlled: true,
+                isDismissible: false,
+                enableDrag: false,
+                builder: (context) {
+                  return Container(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                    decoration: BoxDecoration(
+                        color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(50))),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text("Title"),
+                              Spacer(),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Icon(Icons.close))
+                            ],
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(hintText: "Name"),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(decoration: InputDecoration(hintText: "last name")),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(decoration: InputDecoration(hintText: "email")),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(decoration: InputDecoration(hintText: "pass")),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(decoration: InputDecoration(hintText: "mobile no")),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(decoration: InputDecoration(hintText: "Address")),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(decoration: InputDecoration(hintText: "mobile no")),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(decoration: InputDecoration(hintText: "Address")),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(onPressed: () {}, child: Text("Save"))
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            child: Text("showModalBottomSheet")),
+      ],
     );
   }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +53,17 @@ class _ContactPageState extends State<ContactPage> {
                   builder: (context) {
                     return Column(
                       children: [
+                        Consumer<MainProvider>(
+                          builder: (BuildContext context, MainProvider mainProvider, Widget? child) {
+                            return CupertinoSwitch(
+                              value: mainProvider.isAndroid,
+                              activeColor: Colors.white,
+                              onChanged: (value) {
+                                mainProvider.changePlatform(value);
+                              },
+                            );
+                          },
+                        ),
                         Consumer<HomeProvider>(
                           builder: (BuildContext context, HomeProvider homeProvider, Widget? child) {
                             return Column(
@@ -80,7 +91,6 @@ class _ContactPageState extends State<ContactPage> {
                                     homeProvider.notifyListeners();
                                   },
                                 ),
-
                               ],
                             );
                           },
@@ -96,6 +106,87 @@ class _ContactPageState extends State<ContactPage> {
                           },
                         ),
                         Text("Hello $index"),
+                        CupertinoButton(
+                          child: Text("popup"),
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoActionSheet(
+                                  title: Text("Menu"),
+                                  actions: [
+                                    CupertinoActionSheetAction(
+                                      onPressed: () {},
+                                      child: Text("Option 1"),
+                                      isDefaultAction: true,
+                                    ),
+                                    CupertinoActionSheetAction(
+                                      onPressed: () {},
+                                      child: Text("Option 2"),
+                                      isDestructiveAction: true,
+                                    ),
+                                    CupertinoActionSheetAction(onPressed: () {}, child: Text("Option 3"))
+                                  ],
+                                  cancelButton: CupertinoActionSheetAction(
+                                    onPressed: () {},
+                                    child: Text("Cancel"),
+                                    isDestructiveAction: true,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        CupertinoButton(
+                          child: Text("popup"),
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoActionSheet(
+                                  title: Text("Menu"),
+                                  actions: [
+                                    CupertinoActionSheetAction(
+                                      onPressed: () {},
+                                      child: Text("Option 1"),
+                                      isDefaultAction: true,
+                                    ),
+                                    CupertinoActionSheetAction(
+                                      onPressed: () {},
+                                      child: Text("Option 2"),
+                                      isDestructiveAction: true,
+                                    ),
+                                    CupertinoActionSheetAction(onPressed: () {}, child: Text("Option 3"))
+                                  ],
+                                  cancelButton: CupertinoActionSheetAction(
+                                    onPressed: () {},
+                                    child: Text("Cancel"),
+                                    isDestructiveAction: true,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        CupertinoListTile(
+                          leading: Image.network(
+                              "https://t3.ftcdn.net/jpg/06/58/66/44/240_F_658664405_wpyvdrOTz7bkXMu0Et6yghSGXSbetOJr.jpg"),
+                          title: Text("Nmae"),
+                        ),
+                        CupertinoContextMenu(
+                          actions: [
+                            CupertinoContextMenuAction(child: Text("Option 1")),
+                            CupertinoContextMenuAction(
+                              child: Text(
+                                "Option 2",
+                              ),
+                              isDestructiveAction: true,
+                              trailingIcon: Icons.settings,
+                            ),
+                          ],
+                          child: Image.network(
+                              "https://t3.ftcdn.net/jpg/06/58/66/44/240_F_658664405_wpyvdrOTz7bkXMu0Et6yghSGXSbetOJr.jpg"),
+                        )
                       ],
                     );
                   },
