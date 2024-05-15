@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platform_converter/controller/home_provider.dart';
 import 'package:platform_converter/controller/main_provider.dart';
+import 'package:platform_converter/view/account_page.dart';
 import 'package:provider/provider.dart';
 
 class HomeNew extends StatefulWidget {
@@ -20,7 +21,7 @@ class _HomeNewState extends State<HomeNew> {
 
     if (isAndroid) {
       return Scaffold(
-        appBar: AppBar(),
+        // appBar: AppBar(),
         body: PageView(
           controller: Provider.of<HomeProvider>(context, listen: false).pageController,
           onPageChanged: (value) {
@@ -93,17 +94,10 @@ class _HomeNewState extends State<HomeNew> {
 
                       },
                     )),
-                ListView.builder(itemBuilder: (context, index) {
-                  return Column(
-                    children: [SingleChildScrollView()],
-                  )
-                },itemCount: 10,)
               ],
             )),
             SettingPage(),
-            Container(
-              color: Colors.blue,
-            ),
+            AccountPage(),
             Container(
               color: Colors.yellow,
             )
@@ -371,3 +365,5 @@ class MyButton extends StatelessWidget {
     );
   }
 }
+
+
